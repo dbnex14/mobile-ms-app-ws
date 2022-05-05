@@ -9,4 +9,5 @@ public class MobileMsAppWsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MobileMsAppWsApplication.class, args);
 	}
+
 }
