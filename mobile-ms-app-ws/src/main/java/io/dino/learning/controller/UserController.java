@@ -22,6 +22,7 @@ public class UserController {
 			produces = { MediaType.APPLICATION_XML_VALUE, 
 						 MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserResponse> getUser(@PathVariable String userId) {
+		
 		UserResponse response = new UserResponse();
 		response.setFirstName("mike");
 		response.setLastName("biker");
