@@ -1,5 +1,9 @@
 package io.dino.learning.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -21,18 +25,19 @@ import io.dino.learning.model.response.UserResponse;
 @RestController
 @RequestMapping("users")  //http://localhost:8080/users
 public class UserController {
+	
+	Map<String, UserResponse> users;
 
 	@GetMapping(path="/{userId}",
 			produces = { MediaType.APPLICATION_XML_VALUE, 
 						 MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<UserResponse> getUser(@PathVariable String userId) {
 		
-		UserResponse response = new UserResponse();
-		response.setFirstName("mike");
-		response.setLastName("biker");
-		response.setEmail("mike.biker@blahblah.com");
-		
-		return new ResponseEntity<UserResponse>(response, HttpStatus.OK);
+		if (users.containsKey(userId)) {
+			return new ResponseEntity<>(users.get(userId), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
 	}
 	
 	@GetMapping
@@ -58,6 +63,14 @@ public class UserController {
 		response.setFirstName(userRequest.getFirstName());
 		response.setLastName(userRequest.getLastName());
 		response.setEmail(userRequest.getEmail());
+		
+		String userId = UUID.randomUUID().toString();
+		response.setUserId(userId);
+		
+		if (users == null) {
+			users = new HashMap<>();
+		}
+		users.put(userId, response);
 		
 		return new ResponseEntity<UserResponse>(response, HttpStatus.OK);
 	}
