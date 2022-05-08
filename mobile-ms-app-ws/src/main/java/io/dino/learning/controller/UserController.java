@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.dino.learning.response.UserResponse;
+import io.dino.learning.model.request.UserRequest;
+import io.dino.learning.model.response.UserResponse;
 
 @RestController
 @RequestMapping("users")  //http://localhost:8080/users
@@ -42,13 +44,24 @@ public class UserController {
 				+ "and sort = " + sort;
 	}
 	
-	@PostMapping
-	public String createUser() {
-		return "createUser was called";
+	@PostMapping(
+			consumes = { MediaType.APPLICATION_XML_VALUE, 
+						 MediaType.APPLICATION_JSON_VALUE },
+			produces = { MediaType.APPLICATION_XML_VALUE, 
+					 	 MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+		
+		UserResponse response = new UserResponse();
+		response.setFirstName(userRequest.getFirstName());
+		response.setLastName(userRequest.getLastName());
+		response.setEmail(userRequest.getEmail());
+		
+		return new ResponseEntity<UserResponse>(response, HttpStatus.OK);
 	}
 	
 	@PutMapping
 	public String updateUser() {
+		
 		return "updateUser was called";
 	}
 	

@@ -1,4 +1,4 @@
-package io.dino.learning.response;
+package io.dino.learning.model.response;
 
 public class UserResponse {
 
