@@ -1,5 +1,7 @@
 package io.dino.learning.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +51,8 @@ public class UserController {
 						 MediaType.APPLICATION_JSON_VALUE },
 			produces = { MediaType.APPLICATION_XML_VALUE, 
 					 	 MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+	// To enable validation add @Valid.  To temporarily stop it, remove it
+	public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
 		
 		UserResponse response = new UserResponse();
 		response.setFirstName(userRequest.getFirstName());
